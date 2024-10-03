@@ -1,11 +1,14 @@
 package com.mjukvare.controllers;
 
+import com.mjukvare.controllers.requests.CreateUserNoValidationRequest;
 import com.mjukvare.controllers.requests.CreateUserRequest;
 import com.mjukvare.models.User;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.ErrorResponse;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -31,7 +34,12 @@ public class UsersController {
     }
 
     @PostMapping("")
-    public ResponseEntity<Void> createUser(@RequestBody CreateUserRequest request) throws URISyntaxException {
+    public ResponseEntity<Void> createUser(@RequestBody CreateUserNoValidationRequest request) throws URISyntaxException {
+        return ResponseEntity.created(new URI("/api/users/%s".formatted(UUID.randomUUID()))).build();
+    }
+
+    @PostMapping("with-validation")
+    public ResponseEntity<Void> createUserWithValidation(@Valid @RequestBody CreateUserRequest request) throws URISyntaxException {
         return ResponseEntity.created(new URI("/api/users/%s".formatted(UUID.randomUUID()))).build();
     }
 
@@ -60,5 +68,16 @@ class GlobalExceptionHandler {
                 HttpStatus.BAD_REQUEST,
                 ex.getMessage()
         );
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ProblemDetail handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
+        var violations = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, "Validation error");
+        List<String> v = ex.getFieldErrors().stream()
+                .map(violation -> "%s: %s". formatted(violation.getField(), violation.getDefaultMessage()))
+                .toList();
+
+        violations.setProperty("violations", v);
+        return violations;
     }
 }

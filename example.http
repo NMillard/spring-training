@@ -19,5 +19,15 @@ Content-Type: application/json
 "age": 0
 }
 
-### Invalid request
+### Invalid request with method arg validation
+POST http://localhost:8080/api/users/with-validation
+Content-Type: application/json
+
+{
+  "name": null,
+  "lastName": "",
+  "age": 0
+}
+
+### Poor handling request
 GET http://localhost:8080/api/users/poor-handling
