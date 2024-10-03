@@ -1,0 +1,23 @@
+### Valid request
+POST http://localhost:8080/api/users
+Content-Type: application/json
+
+{
+  "name": "Nick",
+  "lastName": "Miller",
+  "age": 32
+}
+
+
+### Invalid request
+POST http://localhost:8080/api/users
+Content-Type: application/json
+
+{
+"name": "",
+"lastName": "",
+"age": 0
+}
+
+### Invalid request
+GET http://localhost:8080/api/users/poor-handling
