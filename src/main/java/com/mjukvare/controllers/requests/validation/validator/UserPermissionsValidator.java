@@ -14,6 +14,11 @@ import java.util.List;
  * This class illustrates how you can inspect multiple attributes at once, and in relation to one another.
  * Also, take note of how the validator context is used. In particular that the default behavior is disabled
  * and a custom constraint violation is added.
+ *
+ * However, you need to be careful with an approach like this, where business logic is placed at the interface
+ * to your application. You'll quickly run into duplicated logic or business policies that get out of sync.
+ *
+ * This class purely serves as an illustration of validating multiple attributes.
  */
 public class UserPermissionsValidator implements ConstraintValidator<UserPermissions, CreateUserRequest> {
     private final UserPermissionStore permissionStore;
