@@ -24,10 +24,46 @@ POST http://localhost:8080/api/users/with-validation
 Content-Type: application/json
 
 {
-  "name": null,
-  "lastName": "",
-  "age": 0
+  "name": "Nick",
+  "lastName": "Miller",
+  "age": 32,
+  "registrationDate": "2024-01-01",
+  "userType": "FREE",
+  "permissions": [
+    {
+      "type": "users.view",
+      "value": true
+    },
+    {
+      "type": "users.create",
+      "value": true
+    }
+  ]
 }
+
+
+### Valid request with method arg validation
+POST http://localhost:8080/api/users/with-validation
+Content-Type: application/json
+
+{
+  "name": "Nick",
+  "lastName": "Miller",
+  "age": 32,
+  "registrationDate": "2024-01-01",
+  "userType": "FREE",
+  "permissions": [
+    {
+      "type": "users.view",
+      "value": true
+    },
+    {
+      "type": "users.create",
+      "value": false
+    }
+  ]
+}
+
 
 ### Poor handling request
 GET http://localhost:8080/api/users/poor-handling
