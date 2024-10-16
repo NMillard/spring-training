@@ -46,8 +46,7 @@ public class UserPermissionsValidator implements ConstraintValidator<UserPermiss
         invalidPermissions.forEach(invalidPermission -> {
             int permissionIndex = value.permissions().indexOf(new PermissionDto(invalidPermission, true));
             context.buildConstraintViolationWithTemplate(
-                            "User type %s cannot have permissions %s "
-                                    .formatted(value.userType(), invalidPermission)
+                            "User type %s cannot have permissions %s".formatted(value.userType(), invalidPermission)
                     )
                     .addPropertyNode("permissions[%d].type".formatted(permissionIndex))
                     .addConstraintViolation();
