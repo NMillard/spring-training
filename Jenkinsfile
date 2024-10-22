@@ -1,7 +1,7 @@
 echo "hello"
 
 pipeline {
-    agent { docker "maven" }
+    agent any
     
     stages {
          stage("checkout") {
